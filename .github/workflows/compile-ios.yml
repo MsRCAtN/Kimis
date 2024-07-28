@@ -1,0 +1,41 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Compile Kimis
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  CompilePackageMobile:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up macOS
+        run: |
+          export LANG=en_US.UTF-8
+          uname -a
+          brew install xcbeautify
+      - name: Compile Mobile
+        run: ./Resource/Script/compile.release.mobile.ci.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Kimis.ipa
+          path: Kimis.ipa
+
+  CompilePackageOSX:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up macOS
+        run: |
+          export LANG=en_US.UTF-8
+          uname -a
+          brew install xcbeautify
+      - name: Compile macOS
+        run: ./Resource/Script/compile.release.macOS.ci.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Kimis.app
+          path: Kimis.app
